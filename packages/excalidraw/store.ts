@@ -4,7 +4,7 @@ import { ENV } from "./constants";
 import { newElementWith } from "./element/mutateElement";
 import { deepCopyElement } from "./element/newElement";
 import { Emitter } from "./emitter";
-import { isDevEnv, isShallowEqual } from "./utils";
+import { isDevEnv, isShallowEqual, isTestEnv } from "./utils";
 
 import type { OrderedExcalidrawElement } from "./element/types";
 import type { AppState, ObservedAppState } from "./types";
@@ -256,7 +256,7 @@ export class Store implements IStore {
       const message = `There can be at most three store actions scheduled at the same time, but there are "${this.scheduledActions.size}".`;
       console.error(message, this.scheduledActions.values());
 
-      if (isDevEnv() || import.meta.env.MODE === ENV.TEST) {
+      if (isTestEnv() || isDevEnv()) {
         throw new Error(message);
       }
     }
